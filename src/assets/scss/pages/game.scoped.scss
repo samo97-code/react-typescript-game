@@ -1,0 +1,26 @@
+h1{
+  width: 1000px;
+  display: flex;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  margin: 100px auto 40px auto;
+}
+
+.game{
+  margin: 0 auto 0 auto;
+  width: 1000px;
+  display: flex;
+  justify-content: space-between;
+
+  .left-side{
+    border: 1px solid red;
+    padding: 20px;
+    width: 500px;
+  }
+
+  .right-side{
+    background: blue;
+    width: 500px;
+  }
+}

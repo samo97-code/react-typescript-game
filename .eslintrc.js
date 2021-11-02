@@ -21,7 +21,8 @@ module.exports = {
   rules: {
     "no-unused-vars": ["warn"],
     "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": ["error"],
+    // "no-use-before-define": [2, {"functions": true, "classes": true}]
+    // "@typescript-eslint/no-use-before-define": ["error"],
     "prettier/prettier": [
       "error",
       {

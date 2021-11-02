@@ -1,6 +1,8 @@
 import React, { useEffect } from "react"
 // import { useCookies } from "react-cookie"
-import "../assets/scss/pages/game.scss"
+import "../assets/scss/pages/game.scoped.scss"
+import GamePanel from "../components/GamePanel"
+import GameInfo from "../components/GameInfo"
 
 const Game = () => {
   // const [cookies, setCookie] = useCookies(["user"])
@@ -9,10 +11,17 @@ const Game = () => {
   // }, [])
 
   return (
-    <div className="game">
-      <p>cdszc</p>
-      <p>cdszc</p>
-    </div>
+    <>
+      <h1>Lets win stronger</h1>
+      <div className="game">
+        <div className="left-side">
+          <GamePanel />
+        </div>
+        <div className="right-side">
+          <GameInfo />
+        </div>
+      </div>
+    </>
   )
 }
 
