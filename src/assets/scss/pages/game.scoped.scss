@@ -17,10 +17,13 @@ h1{
     border: 1px solid red;
     padding: 20px;
     width: 500px;
+    background: #724c0d;
+    background-image: url('../../img/zenbg-1.png'), url('../../img/zenbg-2.png');
+    background-repeat: repeat-x, repeat;
   }
 
   .right-side{
-    background: blue;
+    background: #5c5c62;
     width: 500px;
   }
 }

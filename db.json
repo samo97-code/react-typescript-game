@@ -1,5 +1,28 @@
 {
-  "user": [
-    { "id": 1, "title": "json-server", "author": "typicode" }
+  "games": [
+    {
+      "user1": "fvdfsf",
+      "user2": "fsfsfs",
+      "roundCount": 5,
+      "roundTimer": 100,
+      "progress": "created",
+      "id": 1,
+      "wins": {
+        "user1": 0,
+        "user2": 0
+      }
+    },
+    {
+      "user1": "gfdgd",
+      "user2": "gdgdg",
+      "roundCount": 14,
+      "roundTimer": 100,
+      "progress": "created",
+      "id": 2,
+      "wins": {
+        "user1": 25,
+        "user2": 0
+      }
+    }
   ]
 }

@@ -1,14 +1,26 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 // import { useCookies } from "react-cookie"
 import "../assets/scss/pages/game.scoped.scss"
 import GamePanel from "../components/GamePanel"
 import GameInfo from "../components/GameInfo"
+import { useCookies } from "react-cookie"
+import GameI from "../interface/game"
+import { useDispatch } from "react-redux"
+import { useHistory } from "react-router-dom"
+import { gameById } from "../store/actions/gameActions"
 
 const Game = () => {
-  // const [cookies, setCookie] = useCookies(["user"])
-  // useEffect(() => {
-  //   console.log(cookies.user)
-  // }, [])
+  const dispatch = useDispatch()
+  const router = useHistory()
+
+  const [cookies] = useCookies(["gameId"])
+
+  useEffect(() => {
+    const fetchGame = async (): Promise<void> => {
+      await dispatch(gameById(cookies.gameId))
+    }
+    fetchGame()
+  }, [])
 
   return (
     <>

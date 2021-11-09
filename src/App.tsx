@@ -1,4 +1,4 @@
-// import "./App.css"
+import "./App.css"
 import Routing from "./router/Routing"
 
 const App = () => {
