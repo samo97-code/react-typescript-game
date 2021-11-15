@@ -1,5 +1,5 @@
 import axios from "axios"
-import { GAME_BY_ID, UPDATE_GAME } from "../types/type"
+import { CURRENT_USER_TURN, GAME_BY_ID, UPDATE_GAME } from "../types/type"
 import { Dispatch } from "redux"
 import GameI from "../../interface/game"
 
@@ -35,7 +35,6 @@ export const updateGame = (game: GameI) => {
         `http://localhost:8081/games/${game.id}`,
         game
       )
-      console.log(resp.data, "resp.data")
       return dispatch({
         type: UPDATE_GAME,
         payload: resp.data,
@@ -53,5 +52,14 @@ export const deleteGame = (id: number) => {
     } catch (e: any) {
       console.log(e.message)
     }
+  }
+}
+
+export const currentUserTurn = (username: string) => {
+  return async (dispatch: Dispatch) => {
+    return dispatch({
+      type: CURRENT_USER_TURN,
+      payload: username,
+    })
   }
 }

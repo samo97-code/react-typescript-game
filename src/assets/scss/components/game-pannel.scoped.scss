@@ -62,14 +62,8 @@
   }
 
   .win-block {
-    &:after {
-      content: '';
-      position: absolute;
-      width: 136%;
-      height: 2px;
-      background: red;
-      transform: rotate(45deg);
-    }
+    background: #ffa500;
+    box-shadow: 0 7px 0 #da8f04;
   }
 
 }

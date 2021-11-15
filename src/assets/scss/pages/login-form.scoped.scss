@@ -21,12 +21,16 @@ h1{
     }
 
     input{
-      height: 24px;
+      height: 40px;
       outline: none;
       border: 1px solid #ccc;
       border-radius: 7px;
       padding: 2px 12px;
       color: #526270;
+    }
+
+    .error-border{
+      border: 2px solid #dc3545;
     }
 
     /* Chrome, Safari, Edge, Opera */
@@ -61,6 +65,15 @@ h1{
 
       &:hover {
         background: #13732b;
+      }
+    }
+
+    .disabled-btn{
+      background: grey;
+      cursor: not-allowed;
+
+      &:hover {
+        background: #5b5a5a;
       }
     }
   }

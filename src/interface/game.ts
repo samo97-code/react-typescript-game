@@ -9,6 +9,7 @@ export default interface GameI {
   user2: string
   roundCount: number
   roundTimer: number
+  currentRound: number
   progress: "created" | "finished"
   wins: wins
 }

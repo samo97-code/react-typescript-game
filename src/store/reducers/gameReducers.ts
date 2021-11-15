@@ -1,8 +1,14 @@
-import { CREATE_GAME, GAME_BY_ID, UPDATE_GAME } from "../types/type"
+import {
+  CREATE_GAME,
+  CURRENT_USER_TURN,
+  GAME_BY_ID,
+  UPDATE_GAME,
+} from "../types/type"
 
 const initialState = {
   games: [],
   game: {},
+  userTurn: "",
 }
 
 const gameReducers = (state = initialState, action: any) => {
@@ -21,6 +27,11 @@ const gameReducers = (state = initialState, action: any) => {
       return {
         ...state,
         game: action.payload,
+      }
+    case CURRENT_USER_TURN:
+      return {
+        ...state,
+        userTurn: action.payload,
       }
     default:
       return state

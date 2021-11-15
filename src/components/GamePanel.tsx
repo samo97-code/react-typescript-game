@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import "../assets/scss/components/game-pannel.scoped.scss"
-import { updateGame } from "../store/actions/gameActions"
+import { currentUserTurn, updateGame } from "../store/actions/gameActions"
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux"
 
 const correctComb = [
@@ -14,9 +14,9 @@ const correctComb = [
   ["0-2", "1-1", "2-0"],
 ]
 
-const GamePanel = () => {
+const GamePanel = ({ reset }: any) => {
   const dispatch = useDispatch()
-  const [clicksCount, setClickType] = useState(0)
+  const [clicksCount, setClickType] = useState(1)
   const [clickedIds, setClickedIds] = useState<Array<string>>([])
   const [clickedUser1, setClickedUser1] = useState<Array<string>>([])
   const [clickedUser2, setClickedUser2] = useState<Array<string>>([])
@@ -29,8 +29,12 @@ const GamePanel = () => {
   }, [clicksCount])
 
   useEffect(() => {
-    if (clickedUser1.length || clickedUser2.length) checkWin()
+    if (clickedUser1.length && clickedUser2.length) checkWin()
   }, [clickedUser1, clickedUser2])
+
+  useEffect(() => {
+    if (reset) truncRound()
+  }, [reset])
 
   const truncRound = async () => {
     const htmlCollection = document.getElementsByClassName("btn-text")
@@ -39,10 +43,16 @@ const GamePanel = () => {
     await arr.forEach((item: HTMLElement) => {
       item.innerHTML = ""
     })
-    await setClickType(0)
+    await clearData()
+  }
+
+  const clearData = async () => {
+    await setClickType(1)
     await setClickedIds([])
     await setClickedUser1([])
     await setClickedUser2([])
+    await setWinComb([])
+    dispatch(currentUserTurn(currentGame.user1))
   }
 
   const clickHandler = async (btnId: string) => {
@@ -50,33 +60,41 @@ const GamePanel = () => {
       await setClickedIds((prevState) => [...prevState, btnId])
       const block = document.getElementById(btnId)
       if (block) {
-        const type = clicksCount % 2 === 0
+        const type = clicksCount % 2 !== 0
         const childEl = block.children[0]
         childEl.innerHTML = type ? "X" : "O"
 
-        if (type) await setClickedUser1((prevState) => [...prevState, btnId])
-        else await setClickedUser2((prevState) => [...prevState, btnId])
+        await addTempUser(type, btnId)
       }
     }
   }
 
-  const checkWin = () => {
+  const addTempUser = async (type: boolean, btnId: string) => {
+    const user = !type ? currentGame.user1 : currentGame.user2
+    dispatch(currentUserTurn(user))
+
+    if (type) await setClickedUser1((prevState) => [...prevState, btnId])
+    else await setClickedUser2((prevState) => [...prevState, btnId])
+
+    await setClickType((prev) => prev + 1)
+  }
+
+  const checkWin = async () => {
     const checker = (arr: string[], target: string[]) =>
       target.every((v) => arr.includes(v))
 
-    const type = clicksCount % 2 === 0
+    const type = clicksCount % 2 !== 0
     const arr = type ? clickedUser1 : clickedUser2
     let user = ""
 
-    correctComb.forEach((item) => {
+    await correctComb.forEach((item) => {
       if (checker(arr, item)) {
         setWinComb(item)
         user = type ? "user1" : "user2"
       }
     })
-    setClickType((prev) => prev + 1)
 
-    if (user) finishRound(user)
+    if (user) await finishRound(user)
   }
 
   const finishRound = async (user: string) => {
@@ -84,11 +102,21 @@ const GamePanel = () => {
 
     if (user !== "equal") {
       game.wins[user] = game.wins[user] + 1
+      let isLast = false
+      game.currentRound = game.currentRound + 1
+      if (game.currentRound > game.roundCount) {
+        isLast = true
+        game.currentRound = game.roundCount
+      }
+
+      if (isLast) {
+        game.progress = "finished"
+      }
     }
     await dispatch(updateGame(game))
-    // setTimeout(() => {
-    //   truncRound()
-    // }, 1500)
+    setTimeout(() => {
+      truncRound()
+    }, 2000)
   }
 
   const tempArr = [...Array(3).keys()]
@@ -114,7 +142,12 @@ const GamePanel = () => {
     )
   })
 
-  return <div className="game-wrapper">{structure}</div>
+  return (
+    <div className="game-wrapper">
+      {clicksCount}
+      {structure}
+    </div>
+  )
 }
 
 export default React.memo(GamePanel)
