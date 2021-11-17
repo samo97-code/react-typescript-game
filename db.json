@@ -136,10 +136,10 @@
       "roundCount": "50",
       "roundTimer": 100,
       "progress": "created",
-      "currentRound": 12,
+      "currentRound": 21,
       "wins": {
-        "user1": 8,
-        "user2": 0
+        "user1": 11,
+        "user2": 1
       },
       "id": 11
     }
