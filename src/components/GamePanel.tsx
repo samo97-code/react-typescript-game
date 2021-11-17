@@ -16,6 +16,7 @@ const correctComb = [
 
 const GamePanel = ({ reset }: any) => {
   const dispatch = useDispatch()
+  const [disableClick, setDisableClick] = useState(false)
   const [clicksCount, setClickType] = useState(1)
   const [clickedIds, setClickedIds] = useState<Array<string>>([])
   const [clickedUser1, setClickedUser1] = useState<Array<string>>([])
@@ -25,7 +26,7 @@ const GamePanel = ({ reset }: any) => {
   const currentGame = useSelector((state: RootStateOrAny) => state.data.game)
 
   useEffect(() => {
-    if (clicksCount === 9) finishRound("equal")
+    if (clicksCount === 10) finishRound("equal")
   }, [clicksCount])
 
   useEffect(() => {
@@ -52,11 +53,12 @@ const GamePanel = ({ reset }: any) => {
     await setClickedUser1([])
     await setClickedUser2([])
     await setWinComb([])
+    await setDisableClick(false)
     dispatch(currentUserTurn(currentGame.user1))
   }
 
   const clickHandler = async (btnId: string) => {
-    if (!clickedIds.includes(btnId)) {
+    if (!clickedIds.includes(btnId) && !disableClick) {
       await setClickedIds((prevState) => [...prevState, btnId])
       const block = document.getElementById(btnId)
       if (block) {
@@ -94,7 +96,9 @@ const GamePanel = ({ reset }: any) => {
       }
     })
 
-    if (user) await finishRound(user)
+    if (user) {
+      await finishRound(user)
+    }
   }
 
   const finishRound = async (user: string) => {
@@ -102,18 +106,20 @@ const GamePanel = ({ reset }: any) => {
 
     if (user !== "equal") {
       game.wins[user] = game.wins[user] + 1
-      let isLast = false
-      game.currentRound = game.currentRound + 1
-      if (game.currentRound > game.roundCount) {
-        isLast = true
-        game.currentRound = game.roundCount
-      }
+    }
 
-      if (isLast) {
-        game.progress = "finished"
-      }
+    let isLast = false
+    game.currentRound = game.currentRound + 1
+    if (game.currentRound > game.roundCount) {
+      isLast = true
+      game.currentRound = game.roundCount
+    }
+
+    if (isLast) {
+      game.progress = "finished"
     }
     await dispatch(updateGame(game))
+    await setDisableClick(true)
     setTimeout(() => {
       truncRound()
     }, 2000)
@@ -142,12 +148,7 @@ const GamePanel = ({ reset }: any) => {
     )
   })
 
-  return (
-    <div className="game-wrapper">
-      {clicksCount}
-      {structure}
-    </div>
-  )
+  return <div className="game-wrapper">{structure}</div>
 }
 
 export default React.memo(GamePanel)
