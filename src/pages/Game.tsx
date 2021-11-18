@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { gameById } from "../store/actions/gameActions"
 
-const Game = () => {
+const Game = (): JSX.Element => {
   const dispatch = useDispatch()
   const router = useHistory()
 

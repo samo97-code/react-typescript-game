@@ -2,8 +2,8 @@ import "../assets/scss/pages/login-form.scoped.scss"
 import { useCookies } from "react-cookie"
 import { useHistory } from "react-router-dom"
 import { useDispatch } from "react-redux"
-import { ChangeEvent, useEffect, useState } from "react"
-import { createGame } from "../store/actions/gameActions"
+import React, { ChangeEvent, useEffect, useState } from "react"
+import { createGame, setSnackbar } from "../store/actions/gameActions"
 import Game from "../interface/game"
 import useValidate from "../hooks/useValidate"
 import ErrorList from "../components/ErrorList"
@@ -30,7 +30,7 @@ const validations: { [key: string]: any } = {
   },
 }
 
-const Login = () => {
+const Login = (): JSX.Element => {
   const router = useHistory()
   const dispatch = useDispatch()
   const [cookies, setCookie] = useCookies()

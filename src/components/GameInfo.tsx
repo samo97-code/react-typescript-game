@@ -5,11 +5,12 @@ import { useDispatch, useSelector, RootStateOrAny } from "react-redux"
 import {
   currentUserTurn,
   deleteGame,
+  setSnackbar,
   updateGame,
 } from "../store/actions/gameActions"
 import { useCookies } from "react-cookie"
 
-const GameInfo = (props: any) => {
+const GameInfo = (props: any): JSX.Element => {
   const router = useHistory()
   const dispatch = useDispatch()
   const [cookies, setCookies, removeCookie] = useCookies(["gameId"])
@@ -93,9 +94,13 @@ const GameInfo = (props: any) => {
       }
 
       await dispatch(deleteGame(game.id))
-      await router.push("/")
-      await alert(userName)
+      await dispatch(
+        setSnackbar({ show: true, message: userName, color: "success" })
+      )
       await removeCookie("gameId")
+      setTimeout(() => {
+        router.push("/")
+      }, 2000)
     } catch (e) {}
   }
 

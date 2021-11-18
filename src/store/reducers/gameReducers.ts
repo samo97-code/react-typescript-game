@@ -2,6 +2,7 @@ import {
   CREATE_GAME,
   CURRENT_USER_TURN,
   GAME_BY_ID,
+  SHOW_SNACKBAR,
   UPDATE_GAME,
 } from "../types/type"
 
@@ -9,6 +10,11 @@ const initialState = {
   games: [],
   game: {},
   userTurn: "",
+  snackbar: {
+    show: false,
+    message: "",
+    color: "success",
+  },
 }
 
 const gameReducers = (state = initialState, action: any) => {
@@ -32,6 +38,11 @@ const gameReducers = (state = initialState, action: any) => {
       return {
         ...state,
         userTurn: action.payload,
+      }
+    case SHOW_SNACKBAR:
+      return {
+        ...state,
+        snackbar: action.payload,
       }
     default:
       return state

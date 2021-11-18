@@ -1,7 +1,13 @@
 import axios from "axios"
-import { CURRENT_USER_TURN, GAME_BY_ID, UPDATE_GAME } from "../types/type"
+import {
+  CURRENT_USER_TURN,
+  GAME_BY_ID,
+  SHOW_SNACKBAR,
+  UPDATE_GAME,
+} from "../types/type"
 import { Dispatch } from "redux"
 import GameI from "../../interface/game"
+import SnackbarI from "../../interface/snackbarI"
 
 export const createGame = (game: GameI) => {
   return async () => {
@@ -60,6 +66,15 @@ export const currentUserTurn = (username: string) => {
     return dispatch({
       type: CURRENT_USER_TURN,
       payload: username,
+    })
+  }
+}
+
+export const setSnackbar = (data: SnackbarI) => {
+  return async (dispatch: Dispatch) => {
+    return dispatch({
+      type: SHOW_SNACKBAR,
+      payload: data,
     })
   }
 }
