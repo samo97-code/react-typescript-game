@@ -1,4 +1,4 @@
-import React, { Props, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import "../assets/scss/components/game-pannel.scoped.scss"
 import { currentUserTurn, updateGame } from "../store/actions/gameActions"
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux"
@@ -14,7 +14,11 @@ const correctComb = [
   ["0-2", "1-1", "2-0"],
 ]
 
-const GamePanel = ({ reset }: any): JSX.Element => {
+interface GamePanelProps {
+  reset: boolean
+}
+
+const GamePanel = ({ reset }: GamePanelProps): JSX.Element => {
   const dispatch = useDispatch()
   const [disableClick, setDisableClick] = useState(false)
   const [clicksCount, setClickType] = useState(1)
@@ -26,15 +30,15 @@ const GamePanel = ({ reset }: any): JSX.Element => {
   const currentGame = useSelector((state: RootStateOrAny) => state.data.game)
 
   useEffect(() => {
-    if (clicksCount === 10) finishRound("equal")
+    if (clicksCount === 10) finishRound("equal").then()
   }, [clicksCount])
 
   useEffect(() => {
-    if (clickedUser1.length && clickedUser2.length) checkWin()
+    if (clickedUser1.length && clickedUser2.length) checkWin().then()
   }, [clickedUser1, clickedUser2])
 
   useEffect(() => {
-    if (reset) truncRound()
+    if (reset) truncRound().then()
   }, [reset])
 
   const truncRound = async () => {

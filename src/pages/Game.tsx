@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense } from "react"
+import React, { useEffect, useState } from "react"
 import "../assets/scss/pages/game.scoped.scss"
 import GamePanel from "../components/GamePanel"
 import GameInfo from "../components/GameInfo"
@@ -24,7 +24,7 @@ const Game = (): JSX.Element => {
           setLoading(false)
         }, 500)
       }
-      fetchGame()
+      fetchGame().then()
     } else router.push("/")
   }, [])
 

@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie"
 import { useHistory } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import React, { ChangeEvent, useEffect, useState } from "react"
-import { createGame, setSnackbar } from "../store/actions/gameActions"
+import { createGame } from "../store/actions/gameActions"
 import Game from "../interface/game"
 import useValidate from "../hooks/useValidate"
 import ErrorList from "../components/ErrorList"
@@ -33,7 +33,7 @@ const validations: { [key: string]: any } = {
 const Login = (): JSX.Element => {
   const router = useHistory()
   const dispatch = useDispatch()
-  const [cookies, setCookie] = useCookies()
+  const [, setCookie] = useCookies()
 
   const [errors, setErrors]: any[] = useState([])
   const [disabled, setDisabled] = useState(true)
@@ -76,7 +76,7 @@ const Login = (): JSX.Element => {
     startValidation(target)
   }
 
-  const startValidation = (target: any) => {
+  const startValidation = (target: HTMLInputElement) => {
     const data = useValidate(
       target.value,
       validations[target.name],

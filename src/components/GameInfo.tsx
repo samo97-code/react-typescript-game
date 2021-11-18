@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, Dispatch, SetStateAction } from "react"
 import "./../assets/scss/components/game-info.scoped.scss"
 import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector, RootStateOrAny } from "react-redux"
@@ -10,10 +10,14 @@ import {
 } from "../store/actions/gameActions"
 import { useCookies } from "react-cookie"
 
-const GameInfo = (props: any): JSX.Element => {
+interface GamePInfoProps {
+  setReset: Dispatch<SetStateAction<boolean>>
+}
+
+const GameInfo = ({ setReset }: GamePInfoProps): JSX.Element => {
   const router = useHistory()
   const dispatch = useDispatch()
-  const [cookies, setCookies, removeCookie] = useCookies(["gameId"])
+  const [, , removeCookie] = useCookies(["gameId"])
 
   const game = useSelector((state: RootStateOrAny) => state.data.game)
   const userTurn = useSelector((state: RootStateOrAny) => state.data.userTurn)
@@ -24,10 +28,10 @@ const GameInfo = (props: any): JSX.Element => {
 
   useEffect(() => {
     if (game.roundCount) {
-      if (game.progress === "finished") finishGame()
+      if (game.progress === "finished") finishGame().then()
 
       clearInterval(updateInterval)
-      props.setReset(false)
+      setReset(false)
       setSeconds(game.roundTimer)
       countTimer(game.roundTimer)
       dispatch(currentUserTurn(game.user1))
@@ -48,7 +52,7 @@ const GameInfo = (props: any): JSX.Element => {
         game.progress = "finished"
       }
       if (game.id) dispatch(updateGame(game))
-      props.setReset(true)
+      setReset(true)
       return clearInterval(updateInterval)
     }
 

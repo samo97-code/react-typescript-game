@@ -1,6 +1,10 @@
 import React from "react"
 import "../assets/scss/components/error-list.scoped.scss"
-const ErrorList = ({ errors }: any) => {
+interface ErrorListProps {
+  errors: any[]
+}
+
+const ErrorList = ({ errors }: ErrorListProps) => {
   return (
     <div>
       {errors &&
